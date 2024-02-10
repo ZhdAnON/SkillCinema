@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.google.android.material.tabs.TabLayoutMediator
 import com.zhdanon.skillcinema.databinding.FragmentOnboardingBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,7 +17,7 @@ class FragmentOnboarding : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentOnboardingBinding.inflate(layoutInflater)
         return binding.root
     }

@@ -4,8 +4,6 @@ import android.app.Application
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.HiltAndroidApp
 
-const val MY_TAG = "ZHORA_TAG"
-
 @HiltAndroidApp
 class App : Application() {
     override fun onCreate() {
