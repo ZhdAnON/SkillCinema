@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         navController.navigate(R.id.fragmentTopCollections)
 
         PreferenceManager.getDefaultSharedPreferences(this).apply {
-            if (getBoolean(PREFERENCES_NAME, false)) {
+            if (!getBoolean(PREFERENCES_NAME, false)) {
                 Log.d(TAG, "onCreate: prefs yes")
                 navController.navigate(R.id.fragmentOnboarding)
             } else {

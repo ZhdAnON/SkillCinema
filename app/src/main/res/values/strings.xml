@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">SkillCinema</string>
 
+    <!-- OnBoarding fragments -->
+    <string name="onboarding_btn_skip">Пропустить</string>
+    <string name="onboarding_first_description">Узнавай\nо премьерах</string>
+    <string name="onboarding_description_second">Создавай\nколлекции</string>
+    <string name="onboarding_description_third">Делись\nс друзьями</string>
+    <string name="onboarding_btn_to_work">Начать работу</string>
+
     <!-- Fragment Top Collections -->
     <string name="btn_show_all_top">Все</string>
     <string name="btn_show_all_end">Показать все</string>
