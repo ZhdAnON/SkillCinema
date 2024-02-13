@@ -1,4 +1,4 @@
-package com.zhdanon.skillcinema.domain.extensions
+package com.zhdanon.skillcinema.core.extensions
 
 import android.widget.ImageView
 import com.bumptech.glide.Glide

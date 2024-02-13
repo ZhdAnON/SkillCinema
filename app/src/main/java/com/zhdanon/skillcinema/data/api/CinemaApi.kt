@@ -1,8 +1,11 @@
 package com.zhdanon.skillcinema.data.api
 
+import com.zhdanon.skillcinema.data.api.model.ResponseDetailMovie
+import com.zhdanon.skillcinema.data.api.model.ResponseMoviesByFilter
 import com.zhdanon.skillcinema.data.api.model.ResponsePremierMovies
 import com.zhdanon.skillcinema.data.api.model.ResponseTopMovies
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface CinemaApi {
@@ -18,4 +21,18 @@ interface CinemaApi {
         @Query("year") year: Int,
         @Query("month") month: String
     ): ResponsePremierMovies
+
+    // FragmentTopCollections (TV_SERIES)
+    @GET("v2.2/films")
+    suspend fun getFilmsByFilter(
+        @Query("type") type: String = ""
+    ): ResponseMoviesByFilter
+
+    // ----------------------------------
+
+    // FragmentDetailMovie
+    @GET("v2.2/films/{id}")
+    suspend fun getMovieById(
+        @Path("id") id: Int
+    ): ResponseDetailMovie
 }

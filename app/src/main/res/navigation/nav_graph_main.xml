@@ -8,7 +8,8 @@
     <fragment
         android:id="@+id/fragmentOnboarding"
         android:name="com.zhdanon.skillcinema.presentation.onboarding.FragmentOnboarding"
-        android:label="FragmentOnboarding" >
+        android:label="FragmentOnboarding"
+        tools:layout="@layout/fragment_onboarding" >
         <action
             android:id="@+id/action_fragmentOnboarding_to_fragmentTopCollections"
             app:popUpTo="@id/fragmentOnboarding"
@@ -20,5 +21,18 @@
         android:id="@+id/fragmentTopCollections"
         android:name="com.zhdanon.skillcinema.presentation.topMovies.FragmentTopCollections"
         android:label="FragmentTopCollections"
-        tools:layout="@layout/fragment_top_collections" />
+        tools:layout="@layout/fragment_top_collections" >
+        <action
+            android:id="@+id/action_fragmentTopCollections_to_fragmentDetailMovie"
+            app:destination="@id/fragmentDetailMovie" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentDetailMovie"
+        android:name="com.zhdanon.skillcinema.presentation.detailMovie.FragmentDetailMovie"
+        android:label="FragmentDetailMovie"
+        tools:layout="@layout/fragment_detail_movie" >
+        <argument
+            android:name="movieId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

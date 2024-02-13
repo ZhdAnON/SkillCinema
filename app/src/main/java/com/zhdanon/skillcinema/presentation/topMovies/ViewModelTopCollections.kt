@@ -2,12 +2,14 @@ package com.zhdanon.skillcinema.presentation.topMovies
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zhdanon.skillcinema.core.BaseViewModel
+import com.zhdanon.skillcinema.core.StateLoading
 import com.zhdanon.skillcinema.domain.CategoriesMovies
-import com.zhdanon.skillcinema.domain.GetPremierCollectionsUseCase
-import com.zhdanon.skillcinema.domain.GetTopCollectionsUseCase
+import com.zhdanon.skillcinema.domain.usecasesAPI.GetPremierCollectionsUseCase
+import com.zhdanon.skillcinema.domain.usecasesAPI.GetTopCollectionsUseCase
 import com.zhdanon.skillcinema.domain.models.Movie
+import com.zhdanon.skillcinema.domain.usecasesAPI.GetMoviesByFilterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,8 +24,9 @@ import kotlin.enums.EnumEntries
 @HiltViewModel
 class ViewModelTopCollections @Inject constructor(
     private val topUseCase: GetTopCollectionsUseCase,
-    private val premierUseCase: GetPremierCollectionsUseCase
-) : ViewModel() {
+    private val premierUseCase: GetPremierCollectionsUseCase,
+    private val moviesByFilterUseCase: GetMoviesByFilterUseCase
+) : BaseViewModel() {
 
     private var _topMovies = MutableStateFlow<List<HomeList>>(emptyList())
     val topMovies = _topMovies.asStateFlow()
@@ -33,35 +36,53 @@ class ViewModelTopCollections @Inject constructor(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun getTopCollection() {
+    fun getTopCollection() {
         viewModelScope.launch(Dispatchers.IO) {
-
-            val topCollection: EnumEntries<CategoriesMovies> = CategoriesMovies.entries
-            val tempList: MutableList<HomeList> = mutableListOf()
-            topCollection.forEach { category ->
-                if (category.name == CategoriesMovies.PREMIERES.name) {
-                    val calendar = Calendar.getInstance()
-                    tempList.add(
-                        HomeList(
-                            category = category,
-                            filmList = premierUseCase.executePremierCollections(
-                                year = calendar.get(Calendar.YEAR),
-                                month = (calendar.get(Calendar.MONTH) + 1).converterInMonth()
+            try {
+                _loadState.value = StateLoading.Loading
+                val topCollection: EnumEntries<CategoriesMovies> = CategoriesMovies.entries
+                val tempList: MutableList<HomeList> = mutableListOf()
+                topCollection.forEach { category ->
+                    when (category.name) {
+                        CategoriesMovies.TV_SERIES.name -> {
+                            tempList.add(
+                                HomeList(
+                                    category = category,
+                                    filmList = moviesByFilterUseCase.execute(
+                                        type = CategoriesMovies.TV_SERIES.name
+                                    )
+                                )
                             )
-                        )
-                    )
-                } else {
-                    tempList.add(
-                        HomeList(
-                            category = category,
-                            filmList = topUseCase.executeTopCollections(
-                                topType = category.name
+                        }
+                        CategoriesMovies.PREMIERES.name -> {
+                            val calendar = Calendar.getInstance()
+                            tempList.add(
+                                HomeList(
+                                    category = category,
+                                    filmList = premierUseCase.execute(
+                                        year = calendar.get(Calendar.YEAR),
+                                        month = (calendar.get(Calendar.MONTH) + 1).converterInMonth()
+                                    )
+                                )
                             )
-                        )
-                    )
+                        }
+                        else -> {
+                            tempList.add(
+                                HomeList(
+                                    category = category,
+                                    filmList = topUseCase.execute(
+                                        topType = category.name
+                                    )
+                                )
+                            )
+                        }
+                    }
                 }
+                _topMovies.value = tempList
+                _loadState.value = StateLoading.Success
+            } catch (e: Exception) {
+                _loadState.value = StateLoading.Error(e.message.toString())
             }
-            _topMovies.value = tempList
         }
     }
 
@@ -71,6 +92,7 @@ class ViewModelTopCollections @Inject constructor(
             val filmList: List<Movie>
         )
 
+        @OptIn(ExperimentalStdlibApi::class)
         @RequiresApi(Build.VERSION_CODES.O)
         fun Int.converterInMonth(): String {
             var textMonth = ""

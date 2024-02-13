@@ -3,7 +3,7 @@ package com.zhdanon.skillcinema.presentation.adapters.viewHolders
 import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.RecyclerView
 import com.zhdanon.skillcinema.databinding.ItemMovieBinding
-import com.zhdanon.skillcinema.domain.extensions.loadImage
+import com.zhdanon.skillcinema.core.extensions.loadImage
 import com.zhdanon.skillcinema.domain.models.Genre
 import com.zhdanon.skillcinema.presentation.adapters.MyAdapterTypes
 

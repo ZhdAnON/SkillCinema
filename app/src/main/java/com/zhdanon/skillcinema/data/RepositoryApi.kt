@@ -4,6 +4,7 @@ import com.zhdanon.skillcinema.data.api.CinemaApi
 import com.zhdanon.skillcinema.data.api.model.mapToDomainMovie
 import com.zhdanon.skillcinema.domain.Repository
 import com.zhdanon.skillcinema.domain.models.Movie
+import com.zhdanon.skillcinema.domain.models.MovieDetail
 import javax.inject.Inject
 
 class RepositoryApi @Inject constructor(
@@ -18,5 +19,15 @@ class RepositoryApi @Inject constructor(
 
     override suspend fun getPremierCollection(year: Int, month: String): List<Movie> {
         return api.getPremier(year, month).items.map { it.mapToDomainMovie() }
+    }
+
+    override suspend fun getDetailByMovie(movieId: Int): MovieDetail {
+        return api.getMovieById(movieId).mapToDomainMovie()
+    }
+
+    override suspend fun getSeriesByFilter(type: String): List<Movie> {
+        return api.getFilmsByFilter(type = type).items.map {
+            it.mapToDomainMovie()
+        }
     }
 }

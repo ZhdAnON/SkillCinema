@@ -18,5 +18,6 @@ enum class CategoriesMovies(val text: String) : Parcelable {
     LOVE_THEME("Про любовь"),
     ZOMBIE_THEME("Зомби"),
     CATASTROPHE_THEME("Катастрофы"),
-    KIDS_ANIMATION_THEME("Мультфильмы")
+    KIDS_ANIMATION_THEME("Мультфильмы"),
+    TV_SERIES("Сериалы")
 }

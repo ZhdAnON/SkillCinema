@@ -4,29 +4,18 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.zhdanon.skillcinema.R
 import com.zhdanon.skillcinema.databinding.FragmentOnboardingBinding
+import com.zhdanon.skillcinema.core.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FragmentOnboarding : Fragment() {
-    private var _binding: FragmentOnboardingBinding? = null
-    private val binding get() = _binding!!
+class FragmentOnboarding : BaseFragment<FragmentOnboardingBinding>() {
+    override fun initBinding(inflater: LayoutInflater) = FragmentOnboardingBinding.inflate(inflater)
 
     private lateinit var adapter: OnBoardingPager
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentOnboardingBinding.inflate(layoutInflater)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,11 +39,6 @@ class FragmentOnboarding : Fragment() {
         TabLayoutMediator(binding.tab, binding.introViewpager) { _, _ -> }.attach()
 
         binding.btnIntroSkip.setOnClickListener { skipIntroClick() }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun skipIntroClick() {
