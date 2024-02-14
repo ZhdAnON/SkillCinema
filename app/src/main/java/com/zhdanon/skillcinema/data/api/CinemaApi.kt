@@ -3,6 +3,7 @@ package com.zhdanon.skillcinema.data.api
 import com.zhdanon.skillcinema.data.api.model.ResponseDetailMovie
 import com.zhdanon.skillcinema.data.api.model.ResponseMoviesByFilter
 import com.zhdanon.skillcinema.data.api.model.ResponsePremierMovies
+import com.zhdanon.skillcinema.data.api.model.ResponseStaffsByMovie
 import com.zhdanon.skillcinema.data.api.model.ResponseTopMovies
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -35,4 +36,9 @@ interface CinemaApi {
     suspend fun getMovieById(
         @Path("id") id: Int
     ): ResponseDetailMovie
+
+    @GET("v1/staff")
+    suspend fun getStaffsByMovie(
+        @Query("filmId") movieId: Int
+    ): List<ResponseStaffsByMovie>
 }

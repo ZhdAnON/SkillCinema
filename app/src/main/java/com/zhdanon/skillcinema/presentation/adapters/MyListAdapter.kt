@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.zhdanon.skillcinema.R
 import com.zhdanon.skillcinema.databinding.ItemMovieBinding
+import com.zhdanon.skillcinema.databinding.ItemStaffBinding
 import com.zhdanon.skillcinema.presentation.adapters.viewHolders.ItemMovieViewHolder
+import com.zhdanon.skillcinema.presentation.adapters.viewHolders.ItemStaffViewHolder
 
 class MyListAdapter(
     private val maxListSize: Int?,
@@ -20,7 +22,18 @@ class MyListAdapter(
                     ItemMovieBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
-                        false)
+                        false
+                    )
+                )
+            }
+
+            R.layout.item_staff -> {
+                ItemStaffViewHolder(
+                    ItemStaffBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 )
             }
 
@@ -41,6 +54,11 @@ class MyListAdapter(
                     .bindItem(getItem(position) as MyAdapterTypes.ItemMovie) { clickItem(it) }
             }
 
+            R.layout.item_staff -> {
+                (holder as ItemStaffViewHolder)
+                    .bindItem(getItem(position) as MyAdapterTypes.ItemMovieStaff) { clickItem(it) }
+            }
+
             else -> throw Exception("Unknown ViewType")
         }
     }
@@ -48,6 +66,7 @@ class MyListAdapter(
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
             is MyAdapterTypes.ItemMovie -> R.layout.item_movie
+            is MyAdapterTypes.ItemMovieStaff -> R.layout.item_staff
             else -> throw Exception("Unknown ViewType")
         }
     }

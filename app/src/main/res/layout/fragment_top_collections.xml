@@ -7,10 +7,6 @@
     android:paddingStart="8dp"
     android:paddingEnd="0dp">
 
-    <include
-        android:id="@+id/inc_progress"
-        layout="@layout/progress_group" />
-
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/banner_app_name"
         android:layout_width="wrap_content"
@@ -31,5 +27,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/banner_app_name"
         tools:listitem="@layout/item_category_list" />
+
+    <include
+        android:id="@+id/inc_progress"
+        layout="@layout/progress_group" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

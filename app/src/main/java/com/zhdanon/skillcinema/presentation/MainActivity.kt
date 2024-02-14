@@ -3,7 +3,6 @@ package com.zhdanon.skillcinema.presentation
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.util.Log
 import androidx.navigation.fragment.NavHostFragment
 import com.zhdanon.skillcinema.R
 import com.zhdanon.skillcinema.databinding.ActivityMainBinding
@@ -28,10 +27,8 @@ class MainActivity : AppCompatActivity() {
 
         PreferenceManager.getDefaultSharedPreferences(this).apply {
             if (!getBoolean(PREFERENCES_NAME, false)) {
-                Log.d(TAG, "onCreate: prefs yes")
                 navController.navigate(R.id.fragmentOnboarding)
             } else {
-                Log.d(TAG, "onCreate: prefs no")
                 navController.navigate(R.id.fragmentTopCollections)
             }
         }
