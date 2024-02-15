@@ -1,10 +1,6 @@
 package com.zhdanon.skillcinema.domain
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-
-@Parcelize
-enum class CategoriesMovies(val text: String) : Parcelable {
+enum class CategoriesMovies(val text: String) {
     TOP_250_MOVIES("Топ-250 фильмов"),
     TOP_POPULAR_MOVIES("Популярные фильмы"),
     PREMIERES("Премьеры"),

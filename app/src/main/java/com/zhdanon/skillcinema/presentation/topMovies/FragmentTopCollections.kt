@@ -4,7 +4,6 @@ import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -13,9 +12,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.zhdanon.skillcinema.databinding.FragmentTopCollectionsBinding
-import com.zhdanon.skillcinema.domain.CategoriesMovies
 import com.zhdanon.skillcinema.core.BaseFragment
 import com.zhdanon.skillcinema.core.StateLoading
+import com.zhdanon.skillcinema.domain.CategoriesMovies
 import com.zhdanon.skillcinema.presentation.adapters.CategoryAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -91,8 +90,9 @@ class FragmentTopCollections : BaseFragment<FragmentTopCollectionsBinding>() {
                     categoryAdapter = CategoryAdapter(
                         20,
                         it,
-                        { onClickShowFullCollection(it) },
-                        { onClickMovie(it) })
+                        ::onClickShowFullCollection,
+                        ::onClickMovie
+                    )
                     binding.categoryList.adapter = categoryAdapter
                 }
             }
@@ -109,6 +109,8 @@ class FragmentTopCollections : BaseFragment<FragmentTopCollectionsBinding>() {
     }
 
     private fun onClickShowFullCollection(collection: CategoriesMovies) {
-        Toast.makeText(requireContext(), "movieId = ${collection.text}", Toast.LENGTH_SHORT).show()
+        val action = FragmentTopCollectionsDirections
+                .actionFragmentTopCollectionsToFragmentTopCollectionsFull(collection.name)
+        findNavController().navigate(action)
     }
 }

@@ -1,11 +1,15 @@
 package com.zhdanon.skillcinema.domain
 
+import androidx.paging.PagingData
 import com.zhdanon.skillcinema.domain.models.Movie
 import com.zhdanon.skillcinema.domain.models.MovieDetail
 import com.zhdanon.skillcinema.domain.models.Staff
+import kotlinx.coroutines.flow.Flow
 
 interface Repository {
-    suspend fun getTopCollections(type: String, page: Int): List<Movie>
+    suspend fun getTopCollections(type: String): List<Movie>
+
+    fun getTopCollectionsPaging(type: String): Flow<PagingData<Movie>>
 
     suspend fun getPremierCollection(year: Int, month: String): List<Movie>
 

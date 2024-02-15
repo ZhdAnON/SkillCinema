@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_fragmentTopCollections_to_fragmentDetailMovie"
             app:destination="@id/fragmentDetailMovie" />
+        <action
+            android:id="@+id/action_fragmentTopCollections_to_fragmentTopCollectionsFull"
+            app:destination="@id/fragmentTopCollectionsFull" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDetailMovie"
@@ -34,5 +37,16 @@
         <argument
             android:name="movieId"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentTopCollectionsFull"
+        android:name="com.zhdanon.skillcinema.presentation.topMoviesFullCollection.FragmentTopCollectionsFull"
+        android:label="FragmentTopCollectionsFull">
+        <argument
+            android:name="category"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_fragmentTopCollectionsFull_to_fragmentDetailMovie"
+            app:destination="@id/fragmentDetailMovie" />
     </fragment>
 </navigation>

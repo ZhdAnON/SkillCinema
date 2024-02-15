@@ -1,6 +1,23 @@
 <resources>
     <string name="app_name">SkillCinema</string>
 
+    <!-- CATEGORIES MOVIES -->
+    <string name="TOP_250_MOVIES">Топ-250 фильмов</string>
+    <string name="TOP_POPULAR_MOVIES">Популярные фильмы</string>
+    <string name="PREMIERES">Премьеры</string>
+    <string name="TOP_POPULAR_ALL">Зрители выбирают</string>
+    <string name="TOP_250_TV_SHOWS">Топ-250 ТВ-передач</string>
+    <string name="VAMPIRE_THEME">О вампирах</string>
+    <string name="COMICS_THEME">Комиксы</string>
+    <string name="CLOSES_RELEASES">Закрытый показ</string>
+    <string name="FAMILY">Семейные</string>
+    <string name="OSKAR_WINNERS_2021">Лауреаты премии "Оскар-2021"</string>
+    <string name="LOVE_THEME">Про любовь</string>
+    <string name="ZOMBIE_THEME">Зомби</string>
+    <string name="CATASTROPHE_THEME">Катастрофы</string>
+    <string name="KIDS_ANIMATION_THEME">Мультфильмы</string>
+    <string name="TV_SERIES">Сериалы</string>
+
     <!-- OnBoarding fragments -->
     <string name="onboarding_btn_skip">Пропустить</string>
     <string name="onboarding_first_description">Узнавай\nо премьерах</string>

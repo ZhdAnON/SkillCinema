@@ -156,18 +156,15 @@ class FragmentDetailMovie : BaseFragment<FragmentDetailMovieBinding>() {
                     val makers = mutableListOf<Staff>()
 
                     it.forEach { staff ->
-                        if (staff.professionKey == "ACTOR") {
-                            actors.add(staff)
-                        } else {
-                            makers.add(staff)
-                        }
+                        if (staff.professionKey == "ACTOR") { actors.add(staff) }
+                        else makers.add(staff)
                     }
 
                     // Staff-makers
                     staffMakersAdapter = MyListAdapter(
                         maxListSize = 20,
                         clickEndButton = { },
-                        clickItem = { onClickItemStaff(it) }
+                        clickItem = ::onClickItemStaff
                     )
                     binding.apply {
                         movieMakersList.layoutManager = GridLayoutManager(
@@ -205,7 +202,7 @@ class FragmentDetailMovie : BaseFragment<FragmentDetailMovieBinding>() {
                     staffActorsAdapter = MyListAdapter(
                         maxListSize = 20,
                         clickEndButton = {},
-                        clickItem = { onClickItemStaff(it) }
+                        clickItem = ::onClickItemStaff
                     )
                     binding.apply {
                         movieActorsList.layoutManager = GridLayoutManager(
