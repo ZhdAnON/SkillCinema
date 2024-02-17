@@ -9,6 +9,7 @@ import com.zhdanon.skillcinema.data.api.model.mapToDomainMovie
 import com.zhdanon.skillcinema.domain.Repository
 import com.zhdanon.skillcinema.domain.models.Movie
 import com.zhdanon.skillcinema.domain.models.MovieDetail
+import com.zhdanon.skillcinema.domain.models.MovieGallery
 import com.zhdanon.skillcinema.domain.models.Staff
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -46,6 +47,10 @@ class RepositoryApi @Inject constructor(
 
     override suspend fun getStaffsByMovie(movieId: Int): List<Staff> {
         return api.getStaffsByMovie(movieId).map { it.mapToDomain() }
+    }
+
+    override suspend fun getImages(movieId: Int): MovieGallery {
+        return api.getFilmImages(movieId, "", 1).mapToDomain()
     }
 
     companion object {

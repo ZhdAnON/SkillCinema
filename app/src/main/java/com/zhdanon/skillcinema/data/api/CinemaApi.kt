@@ -1,6 +1,7 @@
 package com.zhdanon.skillcinema.data.api
 
 import com.zhdanon.skillcinema.data.api.model.ResponseDetailMovie
+import com.zhdanon.skillcinema.data.api.model.ResponseImages
 import com.zhdanon.skillcinema.data.api.model.ResponseMoviesByFilter
 import com.zhdanon.skillcinema.data.api.model.ResponsePremierMovies
 import com.zhdanon.skillcinema.data.api.model.ResponseStaffsByMovie
@@ -41,4 +42,11 @@ interface CinemaApi {
     suspend fun getStaffsByMovie(
         @Query("filmId") movieId: Int
     ): List<ResponseStaffsByMovie>
+
+    @GET("v2.2/films/{id}/images")
+    suspend fun getFilmImages(
+        @Path("id") id: Int,
+        @Query("type") type: String = "",
+        @Query("page") page: Int = 1
+    ): ResponseImages
 }

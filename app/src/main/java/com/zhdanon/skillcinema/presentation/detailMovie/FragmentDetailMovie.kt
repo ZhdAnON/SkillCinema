@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.zhdanon.skillcinema.R
 import com.zhdanon.skillcinema.core.BaseFragment
 import com.zhdanon.skillcinema.core.StateLoading
@@ -35,6 +36,7 @@ class FragmentDetailMovie : BaseFragment<FragmentDetailMovieBinding>() {
 
     private lateinit var staffMakersAdapter: MyListAdapter
     private lateinit var staffActorsAdapter: MyListAdapter
+    private lateinit var galleryAdapter: MyListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,7 +58,7 @@ class FragmentDetailMovie : BaseFragment<FragmentDetailMovieBinding>() {
                         setFilmDetails(movie)                   // Setup poster and movie describe
                         setButtonsOnPoster(movie)               // Setup buttons for DB-collections
                         setMovieStaffs(movie.movieId)           // Setup movie actors/makers list
-//                        setMovieGallery(movie)                  // Setup movie gallery
+                        setMovieGallery(movie.movieId)          // Setup movie gallery
 //                        setSimilar(movie)                       // Setup similar movie list
                     }
                 }
@@ -250,7 +252,36 @@ class FragmentDetailMovie : BaseFragment<FragmentDetailMovieBinding>() {
     }
 
     // Movie gallery
-    private fun setMovieGallery(movie: MovieDetail) {}
+    private fun setMovieGallery(movieId: Int) {
+        galleryAdapter = MyListAdapter(10, {}) { onClickShowAllGallery(movieId) }
+        binding.movieGalleryList.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.movieGalleryList.adapter = galleryAdapter
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.images.collect { gallery ->
+                    if (gallery != null) {
+                        when(gallery.totalImages) {
+                            0 -> {
+                                binding.movieGalleryGroup.isVisible = false
+                            }
+                            in 1..10 -> {
+                                binding.movieGalleryCount.isVisible = false
+                                binding.movieGalleryBtn.isVisible = false
+                                galleryAdapter.submitList(gallery.images.map { MyAdapterTypes.ItemImage(it) })
+                            }
+                            else -> {
+                                binding.movieGalleryCount.text = gallery.totalImages.toString()
+                                galleryAdapter.submitList(gallery.images.take(10).map { MyAdapterTypes.ItemImage(it) })
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
 
     // Similar movies
     private fun setSimilar(movie: MovieDetail) {}

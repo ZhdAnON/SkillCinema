@@ -18,6 +18,17 @@
     <string name="KIDS_ANIMATION_THEME">Мультфильмы</string>
     <string name="TV_SERIES">Сериалы</string>
 
+    <!-- CATEGORIES IMAGES -->
+    <string name="STILL">Кадры</string>
+    <string name="SHOOTING">Изображения со съемок</string>
+    <string name="POSTER">Постеры</string>
+    <string name="FAN_ART">Фан-арты</string>
+    <string name="PROMO">Промо</string>
+    <string name="CONCEPT">Концепт-арты</string>
+    <string name="WALLPAPER">Обои</string>
+    <string name="COVER">Обложки</string>
+    <string name="SCREENSHOT">Скриншоты</string>
+
     <!-- OnBoarding fragments -->
     <string name="onboarding_btn_skip">Пропустить</string>
     <string name="onboarding_first_description">Узнавай\nо премьерах</string>

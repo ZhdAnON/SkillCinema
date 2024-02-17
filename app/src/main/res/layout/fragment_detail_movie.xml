@@ -338,6 +338,7 @@
 
             <!-- Gallery -->
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/movie_gallery_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="26dp"

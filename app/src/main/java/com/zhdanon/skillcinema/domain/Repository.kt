@@ -4,6 +4,7 @@ import androidx.paging.PagingData
 import com.zhdanon.skillcinema.core.CategoriesMovies
 import com.zhdanon.skillcinema.domain.models.Movie
 import com.zhdanon.skillcinema.domain.models.MovieDetail
+import com.zhdanon.skillcinema.domain.models.MovieGallery
 import com.zhdanon.skillcinema.domain.models.Staff
 import kotlinx.coroutines.flow.Flow
 
@@ -21,4 +22,6 @@ interface Repository {
     suspend fun getDetailByMovie(movieId: Int): MovieDetail
 
     suspend fun getStaffsByMovie(movieId: Int): List<Staff>
+
+    suspend fun getImages(movieId: Int): MovieGallery
 }
