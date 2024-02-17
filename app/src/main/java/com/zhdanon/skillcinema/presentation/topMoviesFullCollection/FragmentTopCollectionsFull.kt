@@ -15,7 +15,6 @@ import androidx.paging.map
 import androidx.recyclerview.widget.GridLayoutManager
 import com.zhdanon.skillcinema.core.BaseFragment
 import com.zhdanon.skillcinema.databinding.FragmentTopCollectionFullBinding
-import com.zhdanon.skillcinema.domain.CategoriesMovies
 import com.zhdanon.skillcinema.presentation.adapters.MyAdapterTypes
 import com.zhdanon.skillcinema.presentation.adapters.MyPagingAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,7 +33,7 @@ class FragmentTopCollectionsFull : BaseFragment<FragmentTopCollectionFullBinding
 
         val args: FragmentTopCollectionsFullArgs by navArgs()
         viewModel.setCategory(args.category)
-        binding.fullCollectionCategoryTv.text = CategoriesMovies.valueOf(args.category).text
+        binding.fullCollectionCategoryTv.text = viewModel.getCollectionLabel(args.category)
         binding.btnBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }

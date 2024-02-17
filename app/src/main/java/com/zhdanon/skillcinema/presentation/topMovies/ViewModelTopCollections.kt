@@ -3,9 +3,10 @@ package com.zhdanon.skillcinema.presentation.topMovies
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.viewModelScope
+import com.zhdanon.skillcinema.core.AppResources
 import com.zhdanon.skillcinema.core.BaseViewModel
 import com.zhdanon.skillcinema.core.StateLoading
-import com.zhdanon.skillcinema.domain.CategoriesMovies
+import com.zhdanon.skillcinema.core.CategoriesMovies
 import com.zhdanon.skillcinema.domain.usecasesAPI.GetPremierCollectionsUseCase
 import com.zhdanon.skillcinema.domain.usecasesAPI.GetTopCollectionsUseCase
 import com.zhdanon.skillcinema.domain.models.Movie
@@ -25,7 +26,8 @@ import kotlin.enums.EnumEntries
 class ViewModelTopCollections @Inject constructor(
     private val topUseCase: GetTopCollectionsUseCase,
     private val premierUseCase: GetPremierCollectionsUseCase,
-    private val moviesByFilterUseCase: GetMoviesByFilterUseCase
+    private val moviesByFilterUseCase: GetMoviesByFilterUseCase,
+    private val appResources: AppResources
 ) : BaseViewModel() {
 
     private var _topMovies = MutableStateFlow<List<HomeList>>(emptyList())
@@ -47,7 +49,8 @@ class ViewModelTopCollections @Inject constructor(
                         CategoriesMovies.TV_SERIES.name -> {
                             tempList.add(
                                 HomeList(
-                                    category = category,
+                                    categoryType = category.name,
+                                    categoryLabel = appResources.getCategoryTitle(category.name),
                                     filmList = moviesByFilterUseCase.execute(
                                         type = CategoriesMovies.TV_SERIES.name
                                     )
@@ -58,7 +61,8 @@ class ViewModelTopCollections @Inject constructor(
                             val calendar = Calendar.getInstance()
                             tempList.add(
                                 HomeList(
-                                    category = category,
+                                    categoryType = category.name,
+                                    categoryLabel = appResources.getCategoryTitle(category.name),
                                     filmList = premierUseCase.execute(
                                         year = calendar.get(Calendar.YEAR),
                                         month = (calendar.get(Calendar.MONTH) + 1).converterInMonth()
@@ -69,7 +73,8 @@ class ViewModelTopCollections @Inject constructor(
                         else -> {
                             tempList.add(
                                 HomeList(
-                                    category = category,
+                                    categoryType = category.name,
+                                    categoryLabel = appResources.getCategoryTitle(category.name),
                                     filmList = topUseCase.execute(
                                         topType = category.name
                                     )
@@ -88,7 +93,8 @@ class ViewModelTopCollections @Inject constructor(
 
     companion object {
         data class HomeList(
-            val category: CategoriesMovies,
+            val categoryType: String,
+            val categoryLabel: String,
             val filmList: List<Movie>
         )
 

@@ -17,7 +17,7 @@ import com.zhdanon.skillcinema.core.BaseFragment
 import com.zhdanon.skillcinema.core.StateLoading
 import com.zhdanon.skillcinema.core.extensions.loadImage
 import com.zhdanon.skillcinema.databinding.FragmentDetailMovieBinding
-import com.zhdanon.skillcinema.domain.CategoriesMovies
+import com.zhdanon.skillcinema.core.CategoriesMovies
 import com.zhdanon.skillcinema.domain.models.MovieDetail
 import com.zhdanon.skillcinema.domain.models.Staff
 import com.zhdanon.skillcinema.presentation.adapters.MyAdapterTypes

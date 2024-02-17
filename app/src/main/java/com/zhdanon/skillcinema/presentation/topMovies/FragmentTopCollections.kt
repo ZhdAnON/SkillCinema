@@ -14,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import com.zhdanon.skillcinema.databinding.FragmentTopCollectionsBinding
 import com.zhdanon.skillcinema.core.BaseFragment
 import com.zhdanon.skillcinema.core.StateLoading
-import com.zhdanon.skillcinema.domain.CategoriesMovies
 import com.zhdanon.skillcinema.presentation.adapters.CategoryAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -108,9 +107,9 @@ class FragmentTopCollections : BaseFragment<FragmentTopCollectionsBinding>() {
         findNavController().navigate(action)
     }
 
-    private fun onClickShowFullCollection(collection: CategoriesMovies) {
+    private fun onClickShowFullCollection(collection: String) {
         val action = FragmentTopCollectionsDirections
-                .actionFragmentTopCollectionsToFragmentTopCollectionsFull(collection.name)
+                .actionFragmentTopCollectionsToFragmentTopCollectionsFull(collection)
         findNavController().navigate(action)
     }
 }
