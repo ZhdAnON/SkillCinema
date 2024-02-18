@@ -23,13 +23,11 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.main_container) as NavHostFragment
         val navController = navHost.navController
 
-        navController.navigate(R.id.fragmentTopCollections)
-
         PreferenceManager.getDefaultSharedPreferences(this).apply {
             if (!getBoolean(PREFERENCES_NAME, false)) {
                 navController.navigate(R.id.fragmentOnboarding)
             } else {
-                navController.navigate(R.id.fragmentTopCollections)
+                navController.navigate(R.id.mainFragment)
             }
         }
     }

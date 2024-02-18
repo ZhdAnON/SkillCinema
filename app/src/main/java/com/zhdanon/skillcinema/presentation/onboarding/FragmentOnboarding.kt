@@ -46,7 +46,7 @@ class FragmentOnboarding : BaseFragment<FragmentOnboardingBinding>() {
             putBoolean(PREFERENCES_NAME, true)
             apply()
         }
-        findNavController().navigate(R.id.action_fragmentOnboarding_to_fragmentTopCollections)
+        findNavController().navigate(R.id.action_fragmentOnboarding_to_mainFragment)
     }
 
     companion object {
