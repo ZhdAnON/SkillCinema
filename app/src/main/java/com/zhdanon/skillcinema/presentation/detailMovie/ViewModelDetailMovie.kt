@@ -40,7 +40,7 @@ class ViewModelDetailMovie @Inject constructor(
                 _loadState.value = StateLoading.Loading
                 _movieDetailInfo.value = getFilmById.execute(movieId)
                 _staffs.value = getStaffsByMovie.execute(movieId)
-                _images.value = getImagesByMovie.execute(movieId)
+                _images.value = getImagesByMovie.execute(movieId, "")
                 _loadState.value = StateLoading.Success
             } catch (e: Exception) {
                 _loadState.value = StateLoading.Error(e.message.toString())

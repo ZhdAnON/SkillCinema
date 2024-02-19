@@ -9,7 +9,7 @@ class ItemImageMovieDetailViewHolder(
     private val binding: ItemImageMovieDetailBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bindItem(item: MyAdapterTypes.ItemImage) {
+    fun bindItem(item: MyAdapterTypes.ItemMovieDetailImage) {
         binding.apply {
             galleryImageFilmDetail.loadImage(item.image.previewUrl)
         }

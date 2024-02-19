@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SkillCinema</string>
+
+    <!-- CATEGORIES MOVIES -->
+    <string name="TOP_250_MOVIES">Top 250 movies</string>
+    <string name="TOP_POPULAR_MOVIES">Popular movies</string>
+    <string name="PREMIERES">Premieres</string>
+    <string name="TOP_POPULAR_ALL">Top popular all</string>
+    <string name="TOP_250_TV_SHOWS">Top 250 TV-shows</string>
+    <string name="VAMPIRE_THEME">Vampire theme</string>
+    <string name="COMICS_THEME">Comics theme</string>
+    <string name="CLOSES_RELEASES">Closes releases</string>
+    <string name="FAMILY">Family</string>
+    <string name="OSKAR_WINNERS_2021">Oskar winners 2021</string>
+    <string name="LOVE_THEME">Love theme</string>
+    <string name="ZOMBIE_THEME">Zombie theme</string>
+    <string name="CATASTROPHE_THEME">Catastrophe theme</string>
+    <string name="KIDS_ANIMATION_THEME">Kids animation theme</string>
+    <string name="TV_SERIES">TV-series</string>
+
+    <!-- CATEGORIES IMAGES -->
+    <string name="STILL">Still</string>
+    <string name="SHOOTING">Shooting</string>
+    <string name="POSTER">Poster</string>
+    <string name="FAN_ART">Fan-art</string>
+    <string name="PROMO">Promo</string>
+    <string name="CONCEPT">Concept</string>
+    <string name="WALLPAPER">Wallpaper</string>
+    <string name="COVER">Cover</string>
+    <string name="SCREENSHOT">Screenshot</string>
+
+    <!-- OnBoarding fragments -->
+    <string name="onboarding_btn_skip">Skip</string>
+    <string name="onboarding_first_description">Find out\nabout premieres</string>
+    <string name="onboarding_description_second">Create\ncollections</string>
+    <string name="onboarding_description_third">Share\nwith friends</string>
+
+    <!-- Progress ViewGroup -->
+    <string name="btn_try_again">To try one more time…</string>
+
+    <!-- Fragment Top Collections -->
+    <string name="btn_show_all_top">All</string>
+    <string name="btn_show_all_end">Show all</string>
+
+    <!-- Movie detail fragment -->
+    <string name="label_movie_actors">Movie actors</string>
+    <string name="label_movie_makers">Movie makers</string>
+    <string name="label_movie_gallery">Gallery</string>
+    <string name="label_movie_similar">Similar movies</string>
+    <string name="seasons_episodes_count">%s, %s</string>
+    <string name="placeholder_series_start_year">_</string>
+    <string name="placeholder_series_end_year">…</string>
+    <string name="label_series_seasons">Seasons and series</string>
+
+    <!-- Gallery full fragment -->
+    <string name="title_gallery">Gallery</string>
+    <string name="chip_name">%s %d</string>
+</resources>

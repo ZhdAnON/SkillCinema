@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetImagesByMovieUseCase @Inject constructor(
     private val repository: Repository
 ) {
-    suspend fun execute(movieId: Int): MovieGallery {
-        return repository.getImages(movieId)
+    suspend fun execute(movieId: Int, category: String): MovieGallery {
+        return repository.getImages(movieId, category)
     }
 }

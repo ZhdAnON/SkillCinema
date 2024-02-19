@@ -5,9 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.zhdanon.skillcinema.R
+import com.zhdanon.skillcinema.databinding.ItemImageGalleryBinding
 import com.zhdanon.skillcinema.databinding.ItemImageMovieDetailBinding
 import com.zhdanon.skillcinema.databinding.ItemMovieBinding
 import com.zhdanon.skillcinema.databinding.ItemStaffBinding
+import com.zhdanon.skillcinema.presentation.adapters.viewHolders.ItemGalleryViewHolder
 import com.zhdanon.skillcinema.presentation.adapters.viewHolders.ItemImageMovieDetailViewHolder
 import com.zhdanon.skillcinema.presentation.adapters.viewHolders.ItemMovieViewHolder
 import com.zhdanon.skillcinema.presentation.adapters.viewHolders.ItemStaffViewHolder
@@ -48,6 +50,15 @@ class MyListAdapter(
                     )
                 )
 
+            R.layout.item_image_gallery ->
+                ItemGalleryViewHolder(
+                    ItemImageGalleryBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
+                )
+
             else -> throw Exception("Unknown ViewType")
         }
     }
@@ -72,6 +83,11 @@ class MyListAdapter(
 
             R.layout.item_image_movie_detail -> {
                 (holder as ItemImageMovieDetailViewHolder)
+                    .bindItem(getItem(position) as MyAdapterTypes.ItemMovieDetailImage)
+            }
+
+            R.layout.item_image_gallery -> {
+                (holder as ItemGalleryViewHolder)
                     .bindItem(getItem(position) as MyAdapterTypes.ItemImage)
             }
 
@@ -83,7 +99,8 @@ class MyListAdapter(
         return when (getItem(position)) {
             is MyAdapterTypes.ItemMovie -> R.layout.item_movie
             is MyAdapterTypes.ItemMovieStaff -> R.layout.item_staff
-            is MyAdapterTypes.ItemImage -> R.layout.item_image_movie_detail
+            is MyAdapterTypes.ItemMovieDetailImage -> R.layout.item_image_movie_detail
+            is MyAdapterTypes.ItemImage -> R.layout.item_image_gallery
             else -> throw Exception("Unknown ViewType")
         }
     }

@@ -23,5 +23,5 @@ interface Repository {
 
     suspend fun getStaffsByMovie(movieId: Int): List<Staff>
 
-    suspend fun getImages(movieId: Int): MovieGallery
+    suspend fun getImages(movieId: Int, category: String): MovieGallery
 }

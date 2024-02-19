@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,8 +18,8 @@ import com.zhdanon.skillcinema.R
 import com.zhdanon.skillcinema.core.BaseFragment
 import com.zhdanon.skillcinema.core.StateLoading
 import com.zhdanon.skillcinema.core.extensions.loadImage
-import com.zhdanon.skillcinema.databinding.FragmentDetailMovieBinding
 import com.zhdanon.skillcinema.core.CategoriesMovies
+import com.zhdanon.skillcinema.databinding.FragmentDetailMovieBinding
 import com.zhdanon.skillcinema.domain.models.MovieDetail
 import com.zhdanon.skillcinema.domain.models.Staff
 import com.zhdanon.skillcinema.presentation.adapters.MyAdapterTypes
@@ -258,22 +259,32 @@ class FragmentDetailMovie : BaseFragment<FragmentDetailMovieBinding>() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.movieGalleryList.adapter = galleryAdapter
 
+        binding.movieGalleryBtn.setOnClickListener { onClickShowAllGallery(movieId) }
+
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.images.collect { gallery ->
                     if (gallery != null) {
-                        when(gallery.totalImages) {
+                        when (gallery.totalImages) {
                             0 -> {
                                 binding.movieGalleryGroup.isVisible = false
                             }
+
                             in 1..10 -> {
                                 binding.movieGalleryCount.isVisible = false
                                 binding.movieGalleryBtn.isVisible = false
-                                galleryAdapter.submitList(gallery.images.map { MyAdapterTypes.ItemImage(it) })
+                                galleryAdapter.submitList(gallery.images.map {
+                                    MyAdapterTypes.ItemMovieDetailImage(
+                                        it
+                                    )
+                                })
                             }
+
                             else -> {
                                 binding.movieGalleryCount.text = gallery.totalImages.toString()
-                                galleryAdapter.submitList(gallery.images.take(10).map { MyAdapterTypes.ItemImage(it) })
+                                galleryAdapter.submitList(
+                                    gallery.images.take(10)
+                                        .map { MyAdapterTypes.ItemMovieDetailImage(it) })
                             }
                         }
 
@@ -295,7 +306,11 @@ class FragmentDetailMovie : BaseFragment<FragmentDetailMovieBinding>() {
         showMyToast("StaffId = $staffId", requireContext())
     }
 
-    private fun onClickShowAllGallery(movieId: Int) {}
+    private fun onClickShowAllGallery(movieId: Int) {
+        val action = FragmentDetailMovieDirections
+            .actionFragmentDetailMovieToFragmentGallery(movieId)
+        findNavController().navigate(action)
+    }
 
     private fun onClickShowAllSimilar(movieId: Int) {}
 

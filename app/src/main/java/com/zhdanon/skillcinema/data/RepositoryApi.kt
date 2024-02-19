@@ -49,8 +49,8 @@ class RepositoryApi @Inject constructor(
         return api.getStaffsByMovie(movieId).map { it.mapToDomain() }
     }
 
-    override suspend fun getImages(movieId: Int): MovieGallery {
-        return api.getFilmImages(movieId, "", 1).mapToDomain()
+    override suspend fun getImages(movieId: Int, category: String): MovieGallery {
+        return api.getFilmImages(movieId, category, 1).mapToDomain()
     }
 
     companion object {

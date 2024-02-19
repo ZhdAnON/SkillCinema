@@ -3,25 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main"
-    app:startDestination="@id/fragmentOnboarding">
-
-    <fragment
-        android:id="@+id/fragmentOnboarding"
-        android:name="com.zhdanon.skillcinema.presentation.onboarding.FragmentOnboarding"
-        android:label="FragmentOnboarding"
-        tools:layout="@layout/fragment_onboarding" >
-        <action
-            android:id="@+id/action_fragmentOnboarding_to_fragmentTopCollections"
-            app:popUpTo="@id/fragmentOnboarding"
-            app:popUpToInclusive="true"
-            app:destination="@id/fragmentTopCollections" />
-    </fragment>
+    app:startDestination="@id/fragmentTopCollections">
 
     <fragment
         android:id="@+id/fragmentTopCollections"
         android:name="com.zhdanon.skillcinema.presentation.topMovies.FragmentTopCollections"
         android:label="FragmentTopCollections"
-        tools:layout="@layout/fragment_top_collections" >
+        tools:layout="@layout/fragment_top_collections">
         <action
             android:id="@+id/action_fragmentTopCollections_to_fragmentDetailMovie"
             app:destination="@id/fragmentDetailMovie" />
@@ -33,20 +21,32 @@
         android:id="@+id/fragmentDetailMovie"
         android:name="com.zhdanon.skillcinema.presentation.detailMovie.FragmentDetailMovie"
         android:label="FragmentDetailMovie"
-        tools:layout="@layout/fragment_detail_movie" >
+        tools:layout="@layout/fragment_detail_movie">
         <argument
             android:name="movieId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_fragmentDetailMovie_to_fragmentGallery"
+            app:destination="@id/fragmentGallery" />
     </fragment>
     <fragment
         android:id="@+id/fragmentTopCollectionsFull"
         android:name="com.zhdanon.skillcinema.presentation.topMoviesFullCollection.FragmentTopCollectionsFull"
-        android:label="FragmentTopCollectionsFull">
+        android:label="FragmentTopCollectionsFull"
+        tools:layout="@layout/fragment_top_collection_full">
         <argument
             android:name="category"
             app:argType="string" />
         <action
             android:id="@+id/action_fragmentTopCollectionsFull_to_fragmentDetailMovie"
             app:destination="@id/fragmentDetailMovie" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentGallery"
+        android:name="com.zhdanon.skillcinema.presentation.gallery.FragmentGallery"
+        android:label="FragmentGallery">
+        <argument
+            android:name="movieId"
+            app:argType="integer" />
     </fragment>
 </navigation>

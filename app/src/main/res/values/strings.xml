@@ -52,4 +52,8 @@
     <string name="placeholder_series_start_year">_</string>
     <string name="placeholder_series_end_year">н.в.</string>
     <string name="label_series_seasons">Сезоны и серии</string>
+
+    <!-- Gallery full fragment -->
+    <string name="title_gallery">Галерея</string>
+    <string name="chip_name">%s %d</string>
 </resources>

@@ -7,7 +7,7 @@ import javax.inject.Inject
 class AppResources @Inject constructor(private val context: Context) {
     fun getCategoryTitle(type: String): String {
         return context.getString(
-            when(type) {
+            when (type) {
                 CategoriesMovies.TOP_250_MOVIES.name -> R.string.TOP_250_MOVIES
                 CategoriesMovies.TOP_POPULAR_MOVIES.name -> R.string.TOP_POPULAR_MOVIES
                 CategoriesMovies.PREMIERES.name -> R.string.PREMIERES
@@ -23,6 +23,23 @@ class AppResources @Inject constructor(private val context: Context) {
                 CategoriesMovies.CATASTROPHE_THEME.name -> R.string.CATASTROPHE_THEME
                 CategoriesMovies.KIDS_ANIMATION_THEME.name -> R.string.KIDS_ANIMATION_THEME
                 CategoriesMovies.TV_SERIES.name -> R.string.TV_SERIES
+                else -> -1
+            }
+        )
+    }
+
+    fun getCategoryImages(type: String): String {
+        return context.getString(
+            when (type) {
+                CategoriesImages.STILL.name -> R.string.STILL
+                CategoriesImages.SHOOTING.name -> R.string.SHOOTING
+                CategoriesImages.POSTER.name -> R.string.POSTER
+                CategoriesImages.FAN_ART.name -> R.string.FAN_ART
+                CategoriesImages.PROMO.name -> R.string.PROMO
+                CategoriesImages.CONCEPT.name -> R.string.CONCEPT
+                CategoriesImages.WALLPAPER.name -> R.string.WALLPAPER
+                CategoriesImages.COVER.name -> R.string.COVER
+                CategoriesImages.SCREENSHOT.name -> R.string.SCREENSHOT
                 else -> -1
             }
         )
