@@ -59,7 +59,6 @@
 
     <!-- Progress group -->
     <include
-        android:visibility="gone"
         android:id="@+id/inc_progress"
         layout="@layout/progress_group" />
 

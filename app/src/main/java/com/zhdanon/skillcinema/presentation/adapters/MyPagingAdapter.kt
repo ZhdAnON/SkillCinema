@@ -5,7 +5,9 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.zhdanon.skillcinema.R
+import com.zhdanon.skillcinema.databinding.ItemImageGalleryBinding
 import com.zhdanon.skillcinema.databinding.ItemMovieBinding
+import com.zhdanon.skillcinema.presentation.adapters.viewHolders.ItemGalleryViewHolder
 import com.zhdanon.skillcinema.presentation.adapters.viewHolders.ItemMovieViewHolder
 
 class MyPagingAdapter(
@@ -18,6 +20,11 @@ class MyPagingAdapter(
                     ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 )
             }
+            R.layout.item_image_gallery -> {
+                ItemGalleryViewHolder(
+                    ItemImageGalleryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                )
+            }
             else -> throw Exception("onCreateViewHolder - Unknown ViewType")
         }
     }
@@ -28,6 +35,10 @@ class MyPagingAdapter(
                 val item = getItem(position) as MyAdapterTypes.ItemMovie
                 holder.bindItem(item) { onClick(it) }
             }
+            is ItemGalleryViewHolder -> {
+                val item = getItem(position) as MyAdapterTypes.ItemImage
+                holder.bindItem(item)
+            }
             else -> throw Exception("onBindViewHolder - Unknown ViewType")
         }
     }
@@ -35,6 +46,7 @@ class MyPagingAdapter(
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
             is MyAdapterTypes.ItemMovie -> R.layout.item_movie
+            is MyAdapterTypes.ItemImage -> R.layout.item_image_gallery
             else -> 4
         }
     }

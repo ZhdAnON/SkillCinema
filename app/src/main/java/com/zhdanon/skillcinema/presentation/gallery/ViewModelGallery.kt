@@ -1,14 +1,17 @@
 package com.zhdanon.skillcinema.presentation.gallery
 
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import com.zhdanon.skillcinema.core.AppResources
 import com.zhdanon.skillcinema.core.BaseViewModel
 import com.zhdanon.skillcinema.core.CategoriesImages
 import com.zhdanon.skillcinema.core.StateLoading
 import com.zhdanon.skillcinema.domain.models.Image
+import com.zhdanon.skillcinema.domain.models.MovieGallery
 import com.zhdanon.skillcinema.domain.usecasesAPI.GetImagesByMovieUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -19,43 +22,42 @@ class ViewModelGallery @Inject constructor(
     private val getImages: GetImagesByMovieUseCase,
     private val appResources: AppResources
 ) : BaseViewModel() {
-
-    private val _images = MutableStateFlow<List<Image>>(emptyList())
-    val images = _images.asStateFlow()
-
-    private lateinit var allImagesByFilm: Map<String, List<Image>>
-    private lateinit var currentCategory: String
+    lateinit var imagesPaging: Flow<PagingData<Image>>
 
     private val _galleryChipList = MutableStateFlow<Map<String, Int>>(emptyMap())
+
     val galleryChipList = _galleryChipList.asStateFlow()
 
+    private var _category = MutableStateFlow("")
+    val category = _category.asStateFlow()
+
     fun setChipGroup(movieId: Int) {
-        try {
-            viewModelScope.launch(Dispatchers.IO) {
+        _galleryChipList.value = emptyMap()
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
                 _loadState.value = StateLoading.Loading
                 val tempChipsMap = mutableMapOf<String, Int>()
-                val tempImagesMap = mutableMapOf<String, List<Image>>()
                 CategoriesImages.entries.forEach { category ->
-                    val response = getImages.execute(movieId, category.name)
+                    val response: MovieGallery = getImages.execute(movieId, category.name)
                     if (response.images.isNotEmpty()) {
                         tempChipsMap[category.name] = response.totalImages
-                        tempImagesMap[category.name] = response.images
+                        if (_category.value == "") _category.value = category.name
                     }
                 }
-                allImagesByFilm = tempImagesMap
                 _galleryChipList.value = tempChipsMap
                 _loadState.value = StateLoading.Success
+            } catch (e: Exception) {
+                _loadState.value = StateLoading.Error(e.message.toString())
             }
-        } catch (e: Exception) {
-            _loadState.value = StateLoading.Error(e.message.toString())
         }
     }
 
-    fun updateGalleryType(category: String) {
-        currentCategory = category
-        viewModelScope.launch(Dispatchers.IO) {
-            if (allImagesByFilm.keys.contains(category)) _images.value = allImagesByFilm[category]!!
-        }
+    fun setGallery(movieId: Int) {
+        imagesPaging = getImages.executePaging(movieId, _category)
+    }
+
+    fun updateGallery(category: String) {
+        _category.value = category
     }
 
     fun getAppResources() = appResources

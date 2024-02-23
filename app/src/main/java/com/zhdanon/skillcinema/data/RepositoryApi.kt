@@ -7,11 +7,13 @@ import com.zhdanon.skillcinema.data.api.CinemaApi
 import com.zhdanon.skillcinema.data.api.model.mapToDomain
 import com.zhdanon.skillcinema.data.api.model.mapToDomainMovie
 import com.zhdanon.skillcinema.domain.Repository
+import com.zhdanon.skillcinema.domain.models.Image
 import com.zhdanon.skillcinema.domain.models.Movie
 import com.zhdanon.skillcinema.domain.models.MovieDetail
 import com.zhdanon.skillcinema.domain.models.MovieGallery
 import com.zhdanon.skillcinema.domain.models.Staff
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 class RepositoryApi @Inject constructor(
@@ -50,7 +52,14 @@ class RepositoryApi @Inject constructor(
     }
 
     override suspend fun getImages(movieId: Int, category: String): MovieGallery {
-        return api.getFilmImages(movieId, category, 1).mapToDomain()
+        return api.getFilmImages(movieId, category).mapToDomain()
+    }
+
+    override fun getImagesPaging(movieId: Int, category: StateFlow<String>): Flow<PagingData<Image>> {
+        return Pager(
+            config = PagingConfig(pageSize = LOAD_PAGE_SIZE),
+            pagingSourceFactory = { GalleryPagingSource(api, movieId, category) }
+        ).flow
     }
 
     companion object {

@@ -38,42 +38,35 @@ class FragmentTopCollections : BaseFragment<FragmentTopCollectionsBinding>() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.loadState.collect { state ->
+                    binding.incProgress.loadingRefreshBtn.setOnClickListener {
+                        viewModel.getTopCollection()
+                    }
                     when (state) {
                         is StateLoading.Loading -> {
-                            binding.apply {
-                                incProgress.loadingProgress.isVisible = true
-                                incProgress.loadingBanner.isVisible = true
-                                incProgress.loadingRefreshBtn.isVisible = false
-
-                                bannerAppName.isVisible = false
-                                categoryList.isVisible = false
-                            }
+                            setVisibilityViews(
+                                progressBanner = true,
+                                progressBtn = false,
+                                progressBar = true,
+                                dataViews = false
+                            )
                         }
 
                         is StateLoading.Success -> {
-                            binding.apply {
-                                incProgress.loadingBanner.isVisible = false
-                                incProgress.loadingRefreshBtn.isVisible = false
-                                incProgress.loadingProgress.isVisible = false
-
-                                bannerAppName.isVisible = true
-                                categoryList.isVisible = true
-                            }
+                            setVisibilityViews(
+                                progressBanner = false,
+                                progressBtn = false,
+                                progressBar = false,
+                                dataViews = true
+                            )
                         }
 
                         else -> {
-                            binding.apply {
-                                incProgress.loadingBanner.isVisible = true
-                                incProgress.loadingRefreshBtn.isVisible = true
-                                incProgress.loadingProgress.isVisible = false
-
-                                incProgress.loadingRefreshBtn.setOnClickListener {
-                                    viewModel.getTopCollection()
-                                }
-
-                                bannerAppName.isVisible = false
-                                categoryList.isVisible = false
-                            }
+                            setVisibilityViews(
+                                progressBanner = true,
+                                progressBtn = true,
+                                progressBar = false,
+                                dataViews = false
+                            )
                         }
                     }
                 }
@@ -109,7 +102,23 @@ class FragmentTopCollections : BaseFragment<FragmentTopCollectionsBinding>() {
 
     private fun onClickShowFullCollection(collection: String) {
         val action = FragmentTopCollectionsDirections
-                .actionFragmentTopCollectionsToFragmentTopCollectionsFull(collection)
+            .actionFragmentTopCollectionsToFragmentTopCollectionsFull(collection)
         findNavController().navigate(action)
+    }
+
+    private fun setVisibilityViews(
+        progressBanner: Boolean,
+        progressBtn: Boolean,
+        progressBar: Boolean,
+        dataViews: Boolean
+    ) {
+        binding.apply {
+            incProgress.loadingBanner.isVisible = progressBanner
+            incProgress.loadingRefreshBtn.isVisible = progressBtn
+            incProgress.loadingProgress.isVisible = progressBar
+
+            bannerAppName.isVisible = dataViews
+            categoryList.isVisible = dataViews
+        }
     }
 }

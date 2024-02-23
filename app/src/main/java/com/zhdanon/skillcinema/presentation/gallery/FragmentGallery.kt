@@ -12,6 +12,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
+import androidx.paging.LoadState
+import androidx.paging.map
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -20,7 +22,7 @@ import com.zhdanon.skillcinema.core.BaseFragment
 import com.zhdanon.skillcinema.core.StateLoading
 import com.zhdanon.skillcinema.databinding.FragmentGalleryBinding
 import com.zhdanon.skillcinema.presentation.adapters.MyAdapterTypes
-import com.zhdanon.skillcinema.presentation.adapters.MyListAdapter
+import com.zhdanon.skillcinema.presentation.adapters.MyPagingAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -30,59 +32,58 @@ class FragmentGallery : BaseFragment<FragmentGalleryBinding>() {
         FragmentGalleryBinding.inflate(layoutInflater)
 
     private val viewModel: ViewModelGallery by viewModels()
-    private lateinit var imagesAdapter: MyListAdapter
+
+    private lateinit var imagesPagingAdapter: MyPagingAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val args: FragmentGalleryArgs by navArgs()
+
+        setLoadingState()
+        viewModel.setGallery(args.movieId)
+        setAdapter()
+
+        binding.incProgress.loadingRefreshBtn.setOnClickListener {
+            viewModel.setChipGroup(args.movieId)
+            viewModel.setGallery(args.movieId)
+            imagesPagingAdapter.refresh()
+        }
         binding.galleryBackBtn.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
-
-        val args: FragmentGalleryArgs by navArgs()
-        viewModel.setChipGroup(args.movieId)
-
-        stateLoadingListener()
-        setAdapter()
-        setChipButton()
     }
 
-    private fun stateLoadingListener() {
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+    private fun setLoadingState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.loadState.collect { state ->
                     when (state) {
-                        is StateLoading.Loading -> {
-                            binding.apply {
-                                incProgress.loadingProgress.isVisible = true
-                                incProgress.loadingBanner.isVisible = true
-                                incProgress.loadingRefreshBtn.isVisible = false
-
-                                galleryList.isVisible = false
-                                galleryChipScrollGroup.isVisible = false
-                            }
+                        StateLoading.Loading -> {
+                            setVisibilityViews(
+                                progressBanner = true,
+                                progressBtn = false,
+                                progressBar = true,
+                                dataList = false
+                            )
                         }
-
-                        is StateLoading.Success -> {
-                            binding.apply {
-                                incProgress.loadingBanner.isVisible = false
-                                incProgress.loadingRefreshBtn.isVisible = false
-                                incProgress.loadingProgress.isVisible = false
-
-                                galleryList.isVisible = true
-                                galleryChipScrollGroup.isVisible = true
-                            }
+                        StateLoading.Success -> {
+                            setVisibilityViews(
+                                progressBanner = false,
+                                progressBtn = false,
+                                progressBar = false,
+                                dataList = true
+                            )
+                            setChipButton()
+                            setGalleryImages()
                         }
-
                         else -> {
-                            binding.apply {
-                                incProgress.loadingBanner.isVisible = true
-                                incProgress.loadingRefreshBtn.isVisible = true
-                                incProgress.loadingProgress.isVisible = false
-
-                                galleryList.isVisible = false
-                                galleryChipScrollGroup.isVisible = false
-                            }
+                            setVisibilityViews(
+                                progressBanner = true,
+                                progressBtn = true,
+                                progressBar = false,
+                                dataList = false
+                            )
                         }
                     }
                 }
@@ -91,7 +92,8 @@ class FragmentGallery : BaseFragment<FragmentGalleryBinding>() {
     }
 
     private fun setAdapter() {
-        val gridManager =
+        imagesPagingAdapter = MyPagingAdapter { }
+        binding.galleryList.layoutManager =
             GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
                 .apply {
                     spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -100,10 +102,47 @@ class FragmentGallery : BaseFragment<FragmentGalleryBinding>() {
                         }
                     }
                 }
+        binding.galleryList.adapter = imagesPagingAdapter
 
-        imagesAdapter = MyListAdapter(20, {}) { }
-        binding.galleryList.layoutManager = gridManager
-        binding.galleryList.adapter = imagesAdapter
+        imagesPagingAdapter.addLoadStateListener { state ->
+            val currentState = state.refresh
+            setVisibilityViews(
+                progressBanner = currentState == LoadState.Loading,
+                progressBar = currentState == LoadState.Loading,
+                progressBtn = currentState != LoadState.Loading,
+                dataList = currentState != LoadState.Loading
+            )
+
+            when (currentState) {
+                is LoadState.Loading -> {
+                    setVisibilityViews(
+                        progressBanner = true,
+                        progressBar = true,
+                        progressBtn = false,
+                        dataList = false
+                    )
+                }
+
+                is LoadState.NotLoading -> {
+                    setVisibilityViews(
+                        progressBanner = false,
+                        progressBar = false,
+                        progressBtn = false,
+                        dataList = true
+                    )
+                }
+
+                else -> {
+                    binding.incProgress.root.isVisible = true
+                    setVisibilityViews(
+                        progressBanner = true,
+                        progressBar = false,
+                        progressBtn = true,
+                        dataList = false
+                    )
+                }
+            }
+        }
     }
 
     private fun setChipButton() {
@@ -129,13 +168,13 @@ class FragmentGallery : BaseFragment<FragmentGalleryBinding>() {
                                 isSelected = false
                             }
                             chip.setOnClickListener { myChip ->
-                                viewModel.updateGalleryType(category = myChip.transitionName)
-                                binding.galleryList.invalidate()
+                                viewModel.updateGallery(category = myChip.transitionName)
+                                imagesPagingAdapter.refresh()
                             }
                             if (chipGroup.size == 0) {
                                 chip.isChecked = true
-                                setGalleryImages(chip.transitionName)
-                                binding.galleryList.invalidate()
+                                viewModel.updateGallery(category = chip.transitionName)
+                                imagesPagingAdapter.refresh()
                             }
                             chipGroup.addView(chip)
                         }
@@ -146,14 +185,28 @@ class FragmentGallery : BaseFragment<FragmentGalleryBinding>() {
         }
     }
 
-    private fun setGalleryImages(category: String) {
+    private fun setGalleryImages() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.updateGalleryType(category)
-                viewModel.images.collect {
-                    imagesAdapter.submitList(it.map { image -> MyAdapterTypes.ItemImage(image) })
+                viewModel.imagesPaging.collect {
+                    imagesPagingAdapter.submitData(it.map { image -> MyAdapterTypes.ItemImage(image) })
                 }
             }
+        }
+    }
+
+    private fun setVisibilityViews(
+        progressBanner: Boolean,
+        progressBtn: Boolean,
+        progressBar: Boolean,
+        dataList: Boolean
+    ) {
+        binding.apply {
+            incProgress.loadingBanner.isVisible = progressBanner
+            incProgress.loadingRefreshBtn.isVisible = progressBtn
+            incProgress.loadingProgress.isVisible = progressBar
+
+            galleryList.isVisible = dataList
         }
     }
 

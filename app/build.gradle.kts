@@ -54,8 +54,8 @@ dependencies {
     implementation ("androidx.fragment:fragment-ktx:1.6.2")
 
     // Navigation
-    implementation ("androidx.navigation:navigation-fragment-ktx:2.7.6")
-    implementation ("androidx.navigation:navigation-ui-ktx:2.7.6")
+    implementation ("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation ("androidx.navigation:navigation-ui-ktx:2.7.7")
 
     // ViewModel
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
@@ -70,7 +70,7 @@ dependencies {
     implementation ("com.squareup.moshi:moshi:1.14.0")
     implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
     implementation ("com.squareup.moshi:moshi-kotlin-codegen:1.14.0")
-    implementation ("com.google.firebase:firebase-crashlytics-ktx:18.6.1")
+    implementation ("com.google.firebase:firebase-crashlytics-ktx:18.6.2")
     ksp ("com.squareup.moshi:moshi-kotlin-codegen:1.14.0")
 
     // RecyclerView

@@ -73,49 +73,33 @@ class FragmentDetailMovie : BaseFragment<FragmentDetailMovieBinding>() {
                 viewModel.loadState.collect { state ->
                     when (state) {
                         is StateLoading.Loading -> {
-                            binding.apply {
-                                movieDetail.progress = 1f
-
-                                incProgress.loadingProgress.isVisible = true
-                                incProgress.loadingBanner.isVisible = true
-                                incProgress.loadingRefreshBtn.isVisible = false
-
-                                movieName.isVisible = false
-                                movieMainGroup.isVisible = false
-                                movieDescriptionGroup.isVisible = false
-                                myScroll.isVisible = false
-                            }
+                            setVisibilityViews(
+                                motionProgress = 1f,
+                                progressBar = true,
+                                progressBanner = true,
+                                progressBtn = false,
+                                data = false
+                            )
                         }
 
                         is StateLoading.Success -> {
-                            binding.apply {
-                                movieDetail.progress = 0f
-
-                                incProgress.loadingBanner.isVisible = false
-                                incProgress.loadingRefreshBtn.isVisible = false
-                                incProgress.loadingProgress.isVisible = false
-
-                                movieName.isVisible = true
-                                movieMainGroup.isVisible = true
-                                movieDescriptionGroup.isVisible = true
-                                myScroll.isVisible = true
-                            }
+                            setVisibilityViews(
+                                motionProgress = 0f,
+                                progressBar = false,
+                                progressBanner = false,
+                                progressBtn = false,
+                                data = true
+                            )
                         }
 
                         else -> {
-                            binding.apply {
-                                movieDetail.progress = 1f
-                                movieDetail.isClickable = false
-
-                                incProgress.loadingBanner.isVisible = true
-                                incProgress.loadingRefreshBtn.isVisible = true
-                                incProgress.loadingProgress.isVisible = false
-
-                                movieName.isVisible = false
-                                movieMainGroup.isVisible = false
-                                movieDescriptionGroup.isVisible = false
-                                myScroll.isVisible = false
-                            }
+                            setVisibilityViews(
+                                motionProgress = 1f,
+                                progressBar = false,
+                                progressBanner = true,
+                                progressBtn = true,
+                                data = false
+                            )
                         }
                     }
                 }
@@ -159,8 +143,9 @@ class FragmentDetailMovie : BaseFragment<FragmentDetailMovieBinding>() {
                     val makers = mutableListOf<Staff>()
 
                     it.forEach { staff ->
-                        if (staff.professionKey == "ACTOR") { actors.add(staff) }
-                        else makers.add(staff)
+                        if (staff.professionKey == "ACTOR") {
+                            actors.add(staff)
+                        } else makers.add(staff)
                     }
 
                     // Staff-makers
@@ -260,6 +245,7 @@ class FragmentDetailMovie : BaseFragment<FragmentDetailMovieBinding>() {
         binding.movieGalleryList.adapter = galleryAdapter
 
         binding.movieGalleryBtn.setOnClickListener { onClickShowAllGallery(movieId) }
+        binding.movieGalleryCount.setOnClickListener { onClickShowAllGallery(movieId) }
 
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -336,6 +322,27 @@ class FragmentDetailMovie : BaseFragment<FragmentDetailMovieBinding>() {
             }
         }
 
+    }
+
+    private fun setVisibilityViews(
+        motionProgress: Float,
+        progressBar: Boolean,
+        progressBanner: Boolean,
+        progressBtn: Boolean,
+        data: Boolean
+    ) {
+        binding.apply {
+            movieDetail.progress = motionProgress
+
+            incProgress.loadingProgress.isVisible = progressBar
+            incProgress.loadingBanner.isVisible = progressBanner
+            incProgress.loadingRefreshBtn.isVisible = progressBtn
+
+            movieName.isVisible = data
+            movieMainGroup.isVisible = data
+            movieDescriptionGroup.isVisible = data
+            myScroll.isVisible = data
+        }
     }
 
     companion object {

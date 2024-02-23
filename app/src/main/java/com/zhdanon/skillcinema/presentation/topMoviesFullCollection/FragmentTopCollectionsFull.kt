@@ -58,22 +58,32 @@ class FragmentTopCollectionsFull : BaseFragment<FragmentTopCollectionFullBinding
             binding.incProgress.loadingRefreshBtn.isVisible = currentState != LoadState.Loading
 
             when (currentState) {
-                is LoadState.Loading -> {
-                    binding.fullCollectionList.isVisible = false
-                    binding.incProgress.root.isVisible = true
-                    binding.incProgress.loadingRefreshBtn.isVisible = false
+                LoadState.Loading -> {
+                    setVisibilityViews(
+                        progressBanner = true,
+                        progressBtn = false,
+                        progressBar = true,
+                        dataList = false
+                    )
                 }
 
                 is LoadState.NotLoading -> {
-                    binding.fullCollectionList.isVisible = true
-                    binding.incProgress.root.isVisible = false
-                    binding.incProgress.loadingRefreshBtn.isVisible = true
+                    setVisibilityViews(
+                        progressBanner = false,
+                        progressBtn = true,
+                        progressBar = false,
+                        dataList = true
+                    )
                 }
 
-                else -> {
-                    binding.fullCollectionList.isVisible = false
-                    binding.incProgress.root.isVisible = false
-                    binding.incProgress.loadingRefreshBtn.isVisible = true
+                is LoadState.Error -> {
+                    binding.incProgress.root.isVisible = true
+                    setVisibilityViews(
+                        progressBanner = true,
+                        progressBtn = true,
+                        progressBar = false,
+                        dataList = false
+                    )
                 }
             }
         }
@@ -95,5 +105,20 @@ class FragmentTopCollectionsFull : BaseFragment<FragmentTopCollectionFullBinding
                 movieId
             )
         findNavController().navigate(action)
+    }
+
+    private fun setVisibilityViews(
+        progressBanner: Boolean,
+        progressBtn: Boolean,
+        progressBar: Boolean,
+        dataList: Boolean
+    ) {
+        binding.apply {
+            incProgress.loadingBanner.isVisible = progressBanner
+            incProgress.loadingRefreshBtn.isVisible = progressBtn
+            incProgress.loadingProgress.isVisible = progressBar
+
+            fullCollectionList.isVisible = dataList
+        }
     }
 }
