@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragmentTopCollections"
-        android:name="com.zhdanon.skillcinema.presentation.topMovies.FragmentTopCollections"
+        android:name="com.zhdanon.skillcinema.app.presentation.topMovies.FragmentTopCollections"
         android:label="FragmentTopCollections"
         tools:layout="@layout/fragment_top_collections">
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentDetailMovie"
-        android:name="com.zhdanon.skillcinema.presentation.detailMovie.FragmentDetailMovie"
+        android:name="com.zhdanon.skillcinema.app.presentation.detailMovie.FragmentDetailMovie"
         android:label="FragmentDetailMovie"
         tools:layout="@layout/fragment_detail_movie">
         <argument
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentTopCollectionsFull"
-        android:name="com.zhdanon.skillcinema.presentation.topMoviesFullCollection.FragmentTopCollectionsFull"
+        android:name="com.zhdanon.skillcinema.app.presentation.topMoviesFullCollection.FragmentTopCollectionsFull"
         android:label="FragmentTopCollectionsFull"
         tools:layout="@layout/fragment_top_collection_full">
         <argument
@@ -43,10 +43,21 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentGallery"
-        android:name="com.zhdanon.skillcinema.presentation.gallery.FragmentGallery"
-        android:label="FragmentGallery">
+        android:name="com.zhdanon.skillcinema.app.presentation.gallery.FragmentGallery"
+        android:label="FragmentGallery"
+        tools:layout="@layout/fragment_gallery">
         <argument
             android:name="movieId"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentSearch"
+        android:name="com.zhdanon.skillcinema.app.presentation.search.FragmentSearch"
+        android:label="FragmentSearch"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/fragmentProfile"
+        android:name="com.zhdanon.skillcinema.app.presentation.profile.FragmentProfile"
+        android:label="FragmentProfile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

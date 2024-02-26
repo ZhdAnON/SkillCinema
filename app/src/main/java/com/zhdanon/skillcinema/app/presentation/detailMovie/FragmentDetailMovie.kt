@@ -24,8 +24,6 @@ import com.zhdanon.skillcinema.app.presentation.adapters.MyListAdapter
 import com.zhdanon.skillcinema.databinding.FragmentDetailMovieBinding
 import com.zhdanon.skillcinema.domain.models.MovieDetail
 import com.zhdanon.skillcinema.domain.models.Staff
-import com.zhdanon.skillcinema.presentation.detailMovie.FragmentDetailMovieArgs
-import com.zhdanon.skillcinema.presentation.detailMovie.FragmentDetailMovieDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

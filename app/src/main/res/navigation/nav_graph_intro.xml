@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragmentOnboarding"
-        android:name="com.zhdanon.skillcinema.presentation.onboarding.FragmentOnboarding"
+        android:name="com.zhdanon.skillcinema.app.presentation.onboarding.FragmentOnboarding"
         android:label="FragmentOnboarding"
         tools:layout="@layout/fragment_onboarding">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.zhdanon.skillcinema.presentation.MainFragment"
+        android:name="com.zhdanon.skillcinema.app.presentation.MainFragment"
         android:label="MainFragment" />
 
 </navigation>

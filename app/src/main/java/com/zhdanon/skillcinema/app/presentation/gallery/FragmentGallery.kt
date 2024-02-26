@@ -23,7 +23,6 @@ import com.zhdanon.skillcinema.app.core.StateLoading
 import com.zhdanon.skillcinema.app.presentation.adapters.MyAdapterTypes
 import com.zhdanon.skillcinema.app.presentation.adapters.MyPagingAdapter
 import com.zhdanon.skillcinema.databinding.FragmentGalleryBinding
-import com.zhdanon.skillcinema.presentation.gallery.FragmentGalleryArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

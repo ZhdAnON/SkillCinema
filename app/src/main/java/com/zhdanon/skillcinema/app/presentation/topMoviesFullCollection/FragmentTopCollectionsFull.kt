@@ -17,8 +17,6 @@ import com.zhdanon.skillcinema.app.core.BaseFragment
 import com.zhdanon.skillcinema.app.presentation.adapters.MyPagingAdapter
 import com.zhdanon.skillcinema.databinding.FragmentTopCollectionFullBinding
 import com.zhdanon.skillcinema.app.presentation.adapters.MyAdapterTypes
-import com.zhdanon.skillcinema.presentation.topMoviesFullCollection.FragmentTopCollectionsFullArgs
-import com.zhdanon.skillcinema.presentation.topMoviesFullCollection.FragmentTopCollectionsFullDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

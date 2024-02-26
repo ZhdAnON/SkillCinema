@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">SkillCinema</string>
+    <string name="bottom_menu_home">Главная</string>
+    <string name="bottom_menu_search">Поиск</string>
+    <string name="bottom_menu_profile">Профиль</string>
 
     <!-- CATEGORIES MOVIES -->
     <string name="TOP_250_MOVIES">Топ-250 фильмов</string>

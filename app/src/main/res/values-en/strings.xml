@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SkillCinema</string>
+    <string name="bottom_menu_home">Main</string>
+    <string name="bottom_menu_search">Search</string>
+    <string name="bottom_menu_profile">Profile</string>
 
     <!-- CATEGORIES MOVIES -->
     <string name="TOP_250_MOVIES">Top 250 movies</string>
