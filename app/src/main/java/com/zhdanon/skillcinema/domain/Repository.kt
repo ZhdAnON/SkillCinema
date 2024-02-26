@@ -1,7 +1,7 @@
 package com.zhdanon.skillcinema.domain
 
 import androidx.paging.PagingData
-import com.zhdanon.skillcinema.core.CategoriesMovies
+import com.zhdanon.skillcinema.app.core.CategoriesMovies
 import com.zhdanon.skillcinema.domain.models.Image
 import com.zhdanon.skillcinema.domain.models.Movie
 import com.zhdanon.skillcinema.domain.models.MovieDetail

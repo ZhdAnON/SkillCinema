@@ -6,7 +6,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.zhdanon.skillcinema.data.api.CinemaApi
 import com.zhdanon.skillcinema.data.api.model.mapToDomainMovie
-import com.zhdanon.skillcinema.core.CategoriesMovies
+import com.zhdanon.skillcinema.app.core.CategoriesMovies
 import com.zhdanon.skillcinema.domain.models.Movie
 import java.time.Month
 import java.util.Calendar

@@ -1,6 +1,6 @@
 package com.zhdanon.skillcinema.domain.usecasesAPI
 
-import com.zhdanon.skillcinema.core.CategoriesMovies
+import com.zhdanon.skillcinema.app.core.CategoriesMovies
 import com.zhdanon.skillcinema.domain.Repository
 import com.zhdanon.skillcinema.domain.models.Movie
 import javax.inject.Inject
