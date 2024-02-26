@@ -11,6 +11,7 @@ import com.zhdanon.skillcinema.domain.models.Image
 import com.zhdanon.skillcinema.domain.models.Movie
 import com.zhdanon.skillcinema.domain.models.MovieDetail
 import com.zhdanon.skillcinema.domain.models.MovieGallery
+import com.zhdanon.skillcinema.domain.models.MovieSimilar
 import com.zhdanon.skillcinema.domain.models.Staff
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
@@ -60,6 +61,10 @@ class RepositoryApi @Inject constructor(
             config = PagingConfig(pageSize = LOAD_PAGE_SIZE),
             pagingSourceFactory = { GalleryPagingSource(api, movieId, category) }
         ).flow
+    }
+
+    override suspend fun getSimilar(movieId: Int): MovieSimilar {
+        return api.getSimilarFilms(movieId).mapToDomain()
     }
 
     companion object {

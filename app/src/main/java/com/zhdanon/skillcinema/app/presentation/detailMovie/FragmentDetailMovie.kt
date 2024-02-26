@@ -38,6 +38,7 @@ class FragmentDetailMovie : BaseFragment<FragmentDetailMovieBinding>() {
     private lateinit var staffMakersAdapter: MyListAdapter
     private lateinit var staffActorsAdapter: MyListAdapter
     private lateinit var galleryAdapter: MyListAdapter
+    private lateinit var similarAdapter: MyListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,7 +61,7 @@ class FragmentDetailMovie : BaseFragment<FragmentDetailMovieBinding>() {
                         setButtonsOnPoster(movie)               // Setup buttons for DB-collections
                         setMovieStaffs(movie.movieId)           // Setup movie actors/makers list
                         setMovieGallery(movie.movieId)          // Setup movie gallery
-//                        setSimilar(movie)                       // Setup similar movie list
+                        setSimilar(movie.movieId)               // Setup similar movie list
                     }
                 }
             }
@@ -134,6 +135,8 @@ class FragmentDetailMovie : BaseFragment<FragmentDetailMovieBinding>() {
     // Seasons details
     private fun getSeriesSeasons(movie: MovieDetail) {}
 
+    private fun onClickShowAllSeasons(movieId: Int, movieName: String) {}
+
     // Staffs list
     private fun setMovieStaffs(movieId: Int) {
         viewLifecycleOwner.lifecycleScope.launch {
@@ -148,96 +151,100 @@ class FragmentDetailMovie : BaseFragment<FragmentDetailMovieBinding>() {
                         } else makers.add(staff)
                     }
 
-                    // Staff-makers
-                    staffMakersAdapter = MyListAdapter(
-                        maxListSize = 20,
-                        clickEndButton = { },
-                        clickItem = ::onClickItemStaff
-                    )
-                    binding.apply {
-                        movieMakersList.layoutManager = GridLayoutManager(
-                            requireContext(),
-                            MAX_STAFFS_MAKERS_ROWS,
-                            GridLayoutManager.HORIZONTAL,
-                            false
-                        )
-                        movieMakersList.adapter = staffMakersAdapter
-                        movieMakersBtn.setOnClickListener {
-                            showMyToast("Все, кто работал над фильмом", requireContext())
-                            onClickShowAllStaffs(movieId = movieId, professionKey = "")
-                        }
-                        movieMakersCount.setOnClickListener {
-                            showMyToast("Все, кто работал над фильмом", requireContext())
-                            onClickShowAllStaffs(movieId = movieId, professionKey = "")
-                        }
-                    }
-                    staffMakersAdapter.submitList(
-                        if (actors.size < MAX_STAFFS_MAKERS_COLUMN * MAX_STAFFS_MAKERS_ROWS) {
-                            binding.movieMakersBtn.isVisible = false
-                            binding.movieMakersCount.isVisible = false
-                            makers.map { maker -> MyAdapterTypes.ItemMovieStaff(maker) }
-                        } else {
-                            binding.movieMakersBtn.isVisible = true
-                            binding.movieMakersCount.isVisible = true
-                            binding.movieMakersCount.text = makers.size.toString()
-                            val tempMakersList =
-                                makers.take(MAX_STAFFS_MAKERS_COLUMN * MAX_STAFFS_MAKERS_ROWS)
-                            tempMakersList.map { maker -> MyAdapterTypes.ItemMovieStaff(maker) }
-                        }
-                    )
-
-                    // Staff-actors
-                    staffActorsAdapter = MyListAdapter(
-                        maxListSize = 20,
-                        clickEndButton = {},
-                        clickItem = ::onClickItemStaff
-                    )
-                    binding.apply {
-                        movieActorsList.layoutManager = GridLayoutManager(
-                            requireContext(),
-                            MAX_STAFFS_ACTORS_ROWS,
-                            GridLayoutManager.HORIZONTAL,
-                            false
-                        )
-                        movieActorsList.adapter = staffActorsAdapter
-                        movieActorsBtn.setOnClickListener {
-                            showMyToast("Все, кто снимался в фильме", requireContext())
-                            onClickShowAllStaffs(movieId = movieId, professionKey = "ACTOR")
-                        }
-                        movieActorsCount.setOnClickListener {
-                            showMyToast("Все, кто снимался в фильме", requireContext())
-                            onClickShowAllStaffs(movieId = movieId, professionKey = "ACTOR")
-                        }
-                    }
-                    binding.movieActorsList.apply {
-                        layoutManager = GridLayoutManager(
-                            requireContext(),
-                            MAX_STAFFS_ACTORS_ROWS,
-                            GridLayoutManager.HORIZONTAL,
-                            false
-                        )
-                        adapter = staffActorsAdapter
-                    }
-                    staffActorsAdapter.submitList(
-                        if (actors.size < MAX_STAFFS_ACTORS_COLUMN * MAX_STAFFS_ACTORS_ROWS) {
-                            binding.movieActorsBtn.isVisible = false
-                            binding.movieActorsCount.isVisible = false
-                            actors.map { actor -> MyAdapterTypes.ItemMovieStaff(actor) }
-                        } else {
-                            binding.movieActorsBtn.isVisible = true
-                            binding.movieActorsCount.isVisible = true
-                            binding.movieActorsCount.text = actors.size.toString()
-                            val tempActorsList =
-                                actors.take(MAX_STAFFS_ACTORS_COLUMN * MAX_STAFFS_ACTORS_ROWS)
-                            tempActorsList.map { actor -> MyAdapterTypes.ItemMovieStaff(actor) }
-                        }
-                    )
+                    setMovieMakers(makers, movieId)
+                    setMovieActors(actors, movieId)
                 }
             }
         }
     }
 
-    // Movie gallery
+    private fun setMovieMakers(makers: List<Staff>, movieId: Int) {
+        staffMakersAdapter = MyListAdapter(
+            maxListSize = 20,
+            clickEndButton = { },
+            clickItem = ::onClickItemStaff
+        )
+        binding.apply {
+            movieMakersList.layoutManager = GridLayoutManager(
+                requireContext(),
+                MAX_STAFFS_MAKERS_ROWS,
+                GridLayoutManager.HORIZONTAL,
+                false
+            )
+            movieMakersList.adapter = staffMakersAdapter
+            movieMakersBtn.setOnClickListener {
+                onClickShowAllStaffs(movieId = movieId, professionKey = "")
+            }
+            movieMakersCount.setOnClickListener {
+                onClickShowAllStaffs(movieId = movieId, professionKey = "")
+            }
+        }
+        staffMakersAdapter.submitList(
+            if (makers.size < MAX_STAFFS_MAKERS_COLUMN * MAX_STAFFS_MAKERS_ROWS) {
+                binding.movieMakersBtn.isVisible = false
+                binding.movieMakersCount.isVisible = false
+                makers.map { maker -> MyAdapterTypes.ItemMovieStaff(maker) }
+            } else {
+                binding.movieMakersBtn.isVisible = true
+                binding.movieMakersCount.isVisible = true
+                binding.movieMakersCount.text = makers.size.toString()
+                val tempMakersList =
+                    makers.take(MAX_STAFFS_MAKERS_COLUMN * MAX_STAFFS_MAKERS_ROWS)
+                tempMakersList.map { maker -> MyAdapterTypes.ItemMovieStaff(maker) }
+            }
+        )
+    }
+
+    private fun setMovieActors(actors: List<Staff>, movieId: Int) {
+        staffActorsAdapter = MyListAdapter(
+            maxListSize = 20,
+            clickEndButton = {},
+            clickItem = ::onClickItemStaff
+        )
+        binding.apply {
+            movieActorsList.layoutManager = GridLayoutManager(
+                requireContext(),
+                MAX_STAFFS_ACTORS_ROWS,
+                GridLayoutManager.HORIZONTAL,
+                false
+            )
+            movieActorsList.adapter = staffActorsAdapter
+            movieActorsBtn.setOnClickListener {
+                onClickShowAllStaffs(movieId = movieId, professionKey = "ACTOR")
+            }
+            movieActorsCount.setOnClickListener {
+                onClickShowAllStaffs(movieId = movieId, professionKey = "ACTOR")
+            }
+        }
+        staffActorsAdapter.submitList(
+            if (actors.size < MAX_STAFFS_ACTORS_COLUMN * MAX_STAFFS_ACTORS_ROWS) {
+                binding.movieActorsBtn.isVisible = false
+                binding.movieActorsCount.isVisible = false
+                actors.map { actor -> MyAdapterTypes.ItemMovieStaff(actor) }
+            } else {
+                binding.movieActorsBtn.isVisible = true
+                binding.movieActorsCount.isVisible = true
+                binding.movieActorsCount.text = actors.size.toString()
+                val tempActorsList =
+                    actors.take(MAX_STAFFS_ACTORS_COLUMN * MAX_STAFFS_ACTORS_ROWS)
+                tempActorsList.map { actor -> MyAdapterTypes.ItemMovieStaff(actor) }
+            }
+        )
+    }
+
+    private fun onClickShowAllStaffs(movieId: Int, professionKey: String) {
+        if (professionKey == "ACTOR") {
+            showMyToast("Все, кто снимался в фильме $movieId", requireContext())
+        }
+        else showMyToast("Все, кто работал над фильмом $movieId", requireContext())
+
+    }
+
+    private fun onClickItemStaff(staffId: Int) {
+        showMyToast("StaffId = $staffId", requireContext())
+    }
+
+    // Gallery
     private fun setMovieGallery(movieId: Int) {
         galleryAdapter = MyListAdapter(10, {}) { onClickShowAllGallery(movieId) }
         binding.movieGalleryList.layoutManager =
@@ -280,27 +287,46 @@ class FragmentDetailMovie : BaseFragment<FragmentDetailMovieBinding>() {
         }
     }
 
-    // Similar movies
-    private fun setSimilar(movie: MovieDetail) {}
-
-    // ClickListeners
-    private fun onClickShowAllSeasons(movieId: Int, movieName: String) {}
-
-    private fun onClickShowAllStaffs(movieId: Int, professionKey: String) {}
-
-    private fun onClickItemStaff(staffId: Int) {
-        showMyToast("StaffId = $staffId", requireContext())
-    }
-
     private fun onClickShowAllGallery(movieId: Int) {
         val action = FragmentDetailMovieDirections
             .actionFragmentDetailMovieToFragmentGallery(movieId)
         findNavController().navigate(action)
     }
 
-    private fun onClickShowAllSimilar(movieId: Int) {}
+    // Similar movies
+    private fun setSimilar(movieId: Int) {
+        similarAdapter =
+            MyListAdapter(20, { onClickShowAllSimilar(movieId) }, ::onClickSimilarItem)
+        binding.movieSimilarList.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.movieSimilarList.adapter = similarAdapter
 
-    private fun onClickSimilarItem(movieId: Int) = viewModel.getFilmById(movieId)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.similar.collect {
+                    if (it != null) {
+                        binding.movieSimilarCount.text = it.total.toString()
+                        similarAdapter.submitList(it.movies.map { movie ->
+                            MyAdapterTypes.ItemMovie(movie)
+                        })
+                    }
+                }
+            }
+        }
+
+        binding.movieSimilarCount.setOnClickListener { onClickShowAllSimilar(movieId) }
+        binding.movieSimilarBtn.setOnClickListener { onClickShowAllSimilar(movieId) }
+    }
+
+    private fun onClickShowAllSimilar(movieId: Int) {
+        showMyToast("Все фильмы, похожие на $movieId", requireContext())
+    }
+
+    private fun onClickSimilarItem(movieId: Int) {
+        viewModel.getFilmById(movieId)
+    }
+
+    // ClickListeners
 
     private fun setButtonsOnPoster(movie: MovieDetail) {
         val context = requireContext()

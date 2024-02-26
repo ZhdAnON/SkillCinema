@@ -1,6 +1,7 @@
 package com.zhdanon.skillcinema.app.presentation.adapters.viewHolders
 
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.zhdanon.skillcinema.databinding.ItemMovieBinding
 import com.zhdanon.skillcinema.app.core.loadImage
@@ -24,7 +25,9 @@ class ItemMovieViewHolder(private val binding: ItemMovieBinding) :
             showAll.isInvisible = true
             itemFilm.isInvisible = false
             itemFilmName.text = item.movie.name
-            itemFilmGenre.text = createGenreName(item.movie.genres.take(2))
+            if (item.movie.genres.isNotEmpty())
+                itemFilmGenre.text = createGenreName(item.movie.genres.take(2))
+            else itemFilmGenre.isVisible = false
             itemFilmPoster.loadImage(item.movie.poster)
             itemFilmRating.text = item.movie.rating
             itemFilmRating.isInvisible = item.movie.rating == null

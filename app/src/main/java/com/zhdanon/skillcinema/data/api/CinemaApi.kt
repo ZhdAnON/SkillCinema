@@ -4,6 +4,7 @@ import com.zhdanon.skillcinema.data.api.model.ResponseDetailMovie
 import com.zhdanon.skillcinema.data.api.model.ResponseImages
 import com.zhdanon.skillcinema.data.api.model.ResponseMoviesByFilter
 import com.zhdanon.skillcinema.data.api.model.ResponsePremierMovies
+import com.zhdanon.skillcinema.data.api.model.ResponseSimilarMovies
 import com.zhdanon.skillcinema.data.api.model.ResponseStaffsByMovie
 import com.zhdanon.skillcinema.data.api.model.ResponseTopMovies
 import retrofit2.http.GET
@@ -49,4 +50,9 @@ interface CinemaApi {
         @Query("type") type: String = "",
         @Query("page") page: Int = 1
     ): ResponseImages
+
+    @GET("v2.2/films/{id}/similars")
+    suspend fun getSimilarFilms(
+        @Path("id") id: Int
+    ): ResponseSimilarMovies
 }

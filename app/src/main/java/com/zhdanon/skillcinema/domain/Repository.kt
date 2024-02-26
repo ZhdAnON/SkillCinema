@@ -6,6 +6,7 @@ import com.zhdanon.skillcinema.domain.models.Image
 import com.zhdanon.skillcinema.domain.models.Movie
 import com.zhdanon.skillcinema.domain.models.MovieDetail
 import com.zhdanon.skillcinema.domain.models.MovieGallery
+import com.zhdanon.skillcinema.domain.models.MovieSimilar
 import com.zhdanon.skillcinema.domain.models.Staff
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,4 +29,6 @@ interface Repository {
     suspend fun getImages(movieId: Int, category: String): MovieGallery
 
     fun getImagesPaging(movieId: Int, category: StateFlow<String>): Flow<PagingData<Image>>
+
+    suspend fun getSimilar(movieId: Int): MovieSimilar
 }
